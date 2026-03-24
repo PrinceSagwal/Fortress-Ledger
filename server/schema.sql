@@ -59,12 +59,11 @@ END;
 //
 DELIMITER ;
 
+
 -- View: Global Liquidity
 CREATE OR REPLACE VIEW vw_global_liquidity AS
 SELECT SUM(balance) AS total_liquidity, COUNT(*) AS active_accounts 
 FROM accounts WHERE status = 'ACTIVE';
-
-
 
 -- View: Fraud Velocity (Transactions per minute over last hour)
 CREATE OR REPLACE VIEW vw_fraud_velocity AS
