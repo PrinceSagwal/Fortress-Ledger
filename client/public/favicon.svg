@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Rounded green background -->
+  <rect width="100" height="100" rx="22" ry="22" fill="#1aab6d"/>
+
+  <!-- White shield icon centered -->
+  <path d="M50 18
+    L28 27
+    L28 48
+    C28 62 38 74 50 78
+    C62 74 72 62 72 48
+    L72 27
+    Z"
+    fill="white"
+    stroke="white"
+    stroke-width="1"
+    stroke-linejoin="round"
+  />
+
+  <!-- Inner cutout to make shield outline/hollow look -->
+  <path d="M50 26
+    L35 33
+    L35 49
+    C35 59.5 41.5 68.5 50 72
+    C58.5 68.5 65 59.5 65 49
+    L65 33
+    Z"
+    fill="#1aab6d"
+  />
+</svg>
