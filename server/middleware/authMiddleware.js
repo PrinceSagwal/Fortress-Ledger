@@ -1,5 +1,11 @@
 const jwt = require('jsonwebtoken');
-
+//Only for Admin
+exports.requireAdmin = (req, res, next) => {
+    if (req.user.role !== 'ADMIN') {
+        return res.status(403).json({ error: 'Access Denied. Admin privileges required.' });
+    }
+    next();
+};
 //Verify JWT Token
 exports.verifyToken = (req, res, next) => {
     // Read the token from the HTTP-Only cookie
@@ -19,10 +25,3 @@ exports.verifyToken = (req, res, next) => {
     }
 };
 
-//Only for Admin
-exports.requireAdmin = (req, res, next) => {
-    if (req.user.role !== 'ADMIN') {
-        return res.status(403).json({ error: 'Access Denied. Admin privileges required.' });
-    }
-    next();
-};
