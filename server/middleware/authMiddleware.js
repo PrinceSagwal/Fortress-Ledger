@@ -6,6 +6,7 @@ exports.requireAdmin = (req, res, next) => {
     }
     next();
 };
+
 //Verify JWT Token
 exports.verifyToken = (req, res, next) => {
     // Read the token from the HTTP-Only cookie
