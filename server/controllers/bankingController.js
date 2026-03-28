@@ -18,32 +18,7 @@ exports.getBalance = async (req, res) => {
     }
 };
 
-//History
-exports.getHistory = async (req, res) => {
-    try {
-        // First get the user's account ID
-        const [accounts] = await db.execute('SELECT id FROM accounts WHERE user_id = ?', [req.user.id]);
-        if (accounts.length === 0) return res.status(404).json({ error: 'Account not found' });
-        
-        const accountId = accounts[0].id;
 
-        // Fetch transactions where this account is either sender or receiver
-        const [transactions] = await db.execute(
-            `SELECT t.id, t.amount, t.type, t.created_at, 
-             s.account_no as sender_account, r.account_no as receiver_account
-             FROM transactions t
-             LEFT JOIN accounts s ON t.sender_id = s.id
-             LEFT JOIN accounts r ON t.receiver_id = r.id
-             WHERE t.sender_id = ? OR t.receiver_id = ?
-             ORDER BY t.created_at DESC LIMIT 50`,
-            [accountId, accountId]
-        );
-
-        res.json(transactions);
-    } catch (error) {
-        res.status(500).json({ error: 'Server error retrieving history' });
-    }
-};
 
 //Transfer
 exports.transfer = async (req, res) => {
@@ -113,5 +88,31 @@ exports.transfer = async (req, res) => {
         res.status(400).json({ error: error.message || 'Transfer failed' });
     } finally {
         connection.release();
+    }
+};
+//History
+exports.getHistory = async (req, res) => {
+    try {
+        // First get the user's account ID
+        const [accounts] = await db.execute('SELECT id FROM accounts WHERE user_id = ?', [req.user.id]);
+        if (accounts.length === 0) return res.status(404).json({ error: 'Account not found' });
+        
+        const accountId = accounts[0].id;
+
+        // Fetch transactions where this account is either sender or receiver
+        const [transactions] = await db.execute(
+            `SELECT t.id, t.amount, t.type, t.created_at, 
+             s.account_no as sender_account, r.account_no as receiver_account
+             FROM transactions t
+             LEFT JOIN accounts s ON t.sender_id = s.id
+             LEFT JOIN accounts r ON t.receiver_id = r.id
+             WHERE t.sender_id = ? OR t.receiver_id = ?
+             ORDER BY t.created_at DESC LIMIT 50`,
+            [accountId, accountId]
+        );
+
+        res.json(transactions);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error retrieving history' });
     }
 };
