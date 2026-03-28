@@ -13,14 +13,7 @@ exports.getDashboard = async (req, res) => {
     }
 };
 
-exports.getFraudAlerts = async (req, res) => {
-    try {
-        const [alerts] = await db.execute('SELECT * FROM vw_fraud_velocity');
-        res.json(alerts);
-    } catch (error) {
-        res.status(500).json({ error: 'Server error retrieving fraud alerts' });
-    }
-};
+
 
 exports.freezeAccount = async (req, res) => {
     const accountId = req.params.id;
@@ -37,6 +30,14 @@ exports.freezeAccount = async (req, res) => {
     }
 };
 
+exports.getFraudAlerts = async (req, res) => {
+    try {
+        const [alerts] = await db.execute('SELECT * FROM vw_fraud_velocity');
+        res.json(alerts);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error retrieving fraud alerts' });
+    }
+};
 exports.getAuditTrail = async (req, res) => {
     try {
         const [logs] = await db.execute('SELECT * FROM audit_logs ORDER BY timestamp DESC LIMIT 100');
